@@ -1,0 +1,59 @@
+extends layout
+
+block content
+
+  h2 Application Test
+    div.content
+
+      br
+      form(action='/app',method='get',enctype='application/x-www-form-urlencoded')
+        input(type='text',name='_id')
+        button.btn.btn-info(type='submit') Search
+        br
+        br
+      table.table
+        thead
+          tr
+            th Blogger
+            th Title
+            th Notes
+
+        tbody
+
+            if data
+              td #{data.blogger}
+              td #{data.title}
+              td
+                button.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Show
+                  // Modal
+    #myModal.modal.fade(role='dialog')
+      .modal-dialog
+        // Modal content
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal')
+            h4.modal-title Notes
+          .modal-body
+            table.table
+              thead
+                tr
+                  th Id
+                  th Title
+                  th Delete
+              tbody
+
+                if data
+                  - each note, i in data.notes
+                    tr
+                      form(action='/deletenote',method='get',enctype='application/x-www-form-urlencoded')
+                        td
+                          span(name='id_note') #{note.id}
+
+                        td #{note.title}
+                        td
+                         button.btn.btn-danger(type='submit') Delete
+
+
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+
